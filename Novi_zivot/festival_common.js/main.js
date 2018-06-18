@@ -29,10 +29,6 @@ const main = ((genre, movie, program, festival) => {
 
     pornFest.addProgram(prog1);
     pornFest.addProgram(prog2);
-
-    console.log(action.getData());
-    console.log(film1.getMovieData());
-    console.log(prog2.getData());
     console.log(pornFest.getFestivalData());
 
 
