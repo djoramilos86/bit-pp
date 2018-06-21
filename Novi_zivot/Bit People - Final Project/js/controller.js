@@ -4,62 +4,92 @@ const controller = ((data, ui) => {
     const $viewButton = $("#viewBtn");
     const $searchBar = $('#search');
     const $refreshButton = $('#refresh');
+    const $aboutPage = $("#aboutPage");
+    const $homePage = $("#homePage");
+
+
+
 
     const onRefresh = (event) => {
         ui.resetSearch();
-        loadUsersList();
-    }
-
-    const loadUsersList = () => {
+        data.lastDate();
         data.fetchUsers(users => {
-            ui.renderUsersPage(users)
+            loadUsersList();
         });
     }
 
+    const loadUsersList = () => {
+        const users = data.getUsers();
+        if (users) {
+            ui.renderUsersPage(users);
+
+            const statsText = data.getGenderStatus(users);
+            ui.showGenderStats(statsText);
+            const visitsText = (`Last visited ${data.getLastUpdate()} seconds ago`);
+            ui.showLastVisit(visitsText);
+
+            data.getLastUpdate();
+
+        } else {
+            data.fetchUsers(users => {
+    
+                ui.renderUsersPage(users);
+                const statsText = data.getGenderStatus(users);
+                const visitsText = (`Last visited ${data.getLastUpdate()} seconds ago`);
+    
+                ui.showGenderStats(statsText);
+                ui.showLastVisit(visitsText);
+                data.getLastUpdate();
+            });
+        }
+    }
+
+
+
     const onChangeLayout = () => {
         const users = data.getUsers();
-        ui.changeLayout();
+        const layout = ui.changeLayout();
         ui.renderUsersPage(users);
+        localStorage.setItem("listView", layout);
 
     }
 
-    const onLoad = () => {
-        if (data.getUsers().length === 0) {
-            ui.renderOnLoad()
-        }
+    const showLoading = () => {
+        ui.renderOnLoad()
     }
 
-    const showMessage = () => {
-        if (data.filterUsers().length === 0) {
-            ui.ifNoResults();
-        }
-    }
+
 
     const onSearch = (event) => {
-        const searchTerm = event.target.value
-        if (data.filterUsers(searchTerm).length === 0) {
-            console.log(data.filterUsers());
+        const users = data.filterUsers(event.target.value);
+        ui.renderUsersPage(users);
+    }
 
-            ui.ifNoResults();
-        } else {
-            const users = data.filterUsers(searchTerm);
-            ui.renderUsersPage(users);
-        }
+    const onAbout = () => {
+        ui.showAboutPage();
+        ui.hideElements();
+    }
 
+    const onBitPeople = () => {
+        const users = data.getUsers();
+        ui.showElements();
+        ui.renderUsersPage(users);
     }
 
     const registerEventListeners = () => {
         $searchBar.on('keyup', onSearch);
         $refreshButton.on('click', onRefresh);
-        $viewButton.on('click', onChangeLayout)
+        $viewButton.on('click', onChangeLayout);
+        $aboutPage.on('click', onAbout)
+        $homePage.on('click', onBitPeople)
     }
 
     const init = () => {
-        onLoad();
         registerEventListeners();
+        
+        showLoading();
+        
         loadUsersList();
-        showMessage();
-
     }
 
 

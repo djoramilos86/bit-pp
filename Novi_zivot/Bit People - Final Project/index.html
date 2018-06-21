@@ -9,29 +9,23 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-
-
 </head>
 
 <body>
-
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo center">Bit Persons</a>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <a href="#" class="brand-logo center" id="homePage">Bit Persons</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down space">
+                    <li>
+                        <a href="#" id="aboutPage">About</a>
+                    </li>
                     <li>
                         <i class="material-icons" id="refresh">refresh</i>
-
                     </li>
                     <li>
                         <i class="material-icons" id="viewBtn">view_list</i>
                     </li>
-                    <!-- <li>
-                        <i class="material-icons" id="view">view_module</i>
-                    </li> -->
-
                 </ul>
             </div>
         </nav>
@@ -51,14 +45,21 @@
         </div>
     </nav>
 
+    <div id="statsDiv">
+        <p id="show-stats"></p>
+    </div>
+
     <main id="container">
-        
+
     </main>
 
     <footer class="page-footer">
         <div class="footer-copyright">
             <div class="container">
                 © 2018 Copyright Novi zivot
+            </div>
+            <div>
+                <p id="visits"></p>
             </div>
         </div>
     </footer>

@@ -1,9 +1,5 @@
 const dataModule = (($) => {
 
-    const store = {
-        users: [],
-    }
-
     class User {
         constructor (first, name, dob, email, avatar, avatarLarge, gender){
             const dateObj = new Date(dob);
@@ -36,18 +32,24 @@ const dataModule = (($) => {
                 return new User(first, name, user.dob.date, shortEmail, user.picture.thumbnail, user.picture.large, user.gender);
             })
 
-            store.users = users
-            // save to local storage
-            
+            const localStorageUsers = users
+            const usersToLocalStorage = localStorage.setItem("users", JSON.stringify(localStorageUsers));           
             successHandler(users);
         });
+        
     }
 
 
+    const getUsers = () => {
+        const getFromLocal = localStorage.getItem("users");
+        return  JSON.parse(getFromLocal);
+       
+    }
     
-
+    
     const filterUsers = (searchValue) => {
-        const userList = store.users
+        const userList = getUsers();
+        
         const filteredUsers = [];
         for (let i = 0; i < userList.length; i++) {
             let liTitle = `${userList[i].name.toLowerCase()}`
@@ -60,12 +62,33 @@ const dataModule = (($) => {
     }
 
 
-
-    const getUsers = () => {
-        // read from local storage
-        return store.users;
+    const getGenderStatus = (users) => {
+        let male = 0;
+        let female = 0;
+        users.forEach(user => {
+            if (user.gender === "male"){
+                male ++                
+            }else {
+                female ++
+            }
+        })
+        
+        return `Male:${male} Female:${female}`;
     }
 
+    const lastDate = () => {
+        const date = Date.now();
+        const formatedDate = Math.floor(date);  
+        localStorage.setItem("lastUpdate", formatedDate);
+    }
+    
+    const getLastUpdate = () => {
+        const timeFromLastVisit = Date.now() - parseInt(localStorage.getItem("lastUpdate"));
+        return Math.floor(timeFromLastVisit/1000);
+    }
 
-    return { fetchUsers, filterUsers, getUsers }
+    
+
+
+    return { fetchUsers, filterUsers, getUsers, getGenderStatus, lastDate, getLastUpdate }
 })($);
