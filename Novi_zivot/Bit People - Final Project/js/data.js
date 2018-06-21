@@ -39,13 +39,11 @@ const dataModule = (($) => {
         
     }
 
-
     const getUsers = () => {
         const getFromLocal = localStorage.getItem("users");
         return  JSON.parse(getFromLocal);
        
     }
-    
     
     const filterUsers = (searchValue) => {
         const userList = getUsers();
@@ -61,7 +59,6 @@ const dataModule = (($) => {
 
     }
 
-
     const getGenderStatus = (users) => {
         let male = 0;
         let female = 0;
@@ -72,7 +69,6 @@ const dataModule = (($) => {
                 female ++
             }
         })
-        
         return `Male:${male} Female:${female}`;
     }
 
@@ -86,9 +82,6 @@ const dataModule = (($) => {
         const timeFromLastVisit = Date.now() - parseInt(localStorage.getItem("lastUpdate"));
         return Math.floor(timeFromLastVisit/1000);
     }
-
-    
-
 
     return { fetchUsers, filterUsers, getUsers, getGenderStatus, lastDate, getLastUpdate }
 })($);

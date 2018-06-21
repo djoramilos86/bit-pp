@@ -1,14 +1,10 @@
 const controller = ((data, ui) => {
 
-
     const $viewButton = $("#viewBtn");
     const $searchBar = $('#search');
     const $refreshButton = $('#refresh');
     const $aboutPage = $("#aboutPage");
     const $homePage = $("#homePage");
-
-
-
 
     const onRefresh = (event) => {
         ui.resetSearch();
@@ -22,29 +18,23 @@ const controller = ((data, ui) => {
         const users = data.getUsers();
         if (users) {
             ui.renderUsersPage(users);
-
             const statsText = data.getGenderStatus(users);
             ui.showGenderStats(statsText);
             const visitsText = (`Last visited ${data.getLastUpdate()} seconds ago`);
             ui.showLastVisit(visitsText);
-
             data.getLastUpdate();
 
         } else {
             data.fetchUsers(users => {
-    
                 ui.renderUsersPage(users);
                 const statsText = data.getGenderStatus(users);
                 const visitsText = (`Last visited ${data.getLastUpdate()} seconds ago`);
-    
                 ui.showGenderStats(statsText);
                 ui.showLastVisit(visitsText);
                 data.getLastUpdate();
             });
         }
     }
-
-
 
     const onChangeLayout = () => {
         const users = data.getUsers();
@@ -57,8 +47,6 @@ const controller = ((data, ui) => {
     const showLoading = () => {
         ui.renderOnLoad()
     }
-
-
 
     const onSearch = (event) => {
         const users = data.filterUsers(event.target.value);
@@ -91,9 +79,6 @@ const controller = ((data, ui) => {
         
         loadUsersList();
     }
-
-
-
 
     return {
         init
